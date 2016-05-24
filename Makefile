@@ -1,9 +1,9 @@
-PLUGIN_NAME = plugin_template
+PLUGIN_NAME = camera_triggerer
 
-HEADERS = plugin-template.h
+HEADERS = camera-triggerer.h
 
-SOURCES = plugin-template.cpp\
-          moc_plugin-template.cpp\
+SOURCES = camera-triggerer.cpp\
+          moc_camera-triggerer.cpp\
 
 LIBS = 
 

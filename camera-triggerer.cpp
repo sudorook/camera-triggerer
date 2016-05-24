@@ -20,12 +20,12 @@
  * DefaultGUIModel with a custom GUI.
  */
 
-#include "plugin-template.h"
+#include "camera-triggerer.h"
 #include <main_window.h>
 #include <iostream>
 
 extern "C" Plugin::Object *createRTXIPlugin(void){
-	return new PluginTemplate();
+	return new CameraTriggerer();
 }
 
 static DefaultGUIModel::variable_t vars[] = {
@@ -36,8 +36,8 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-PluginTemplate::PluginTemplate(void) : DefaultGUIModel("PluginTemplate with Custom GUI", ::vars, ::num_vars) {
-	setWhatsThis("<p><b>PluginTemplate:</b><br>QWhatsThis description.</p>");
+CameraTriggerer::CameraTriggerer(void) : DefaultGUIModel("CameraTriggerer with Custom GUI", ::vars, ::num_vars) {
+	setWhatsThis("<p><b>CameraTriggerer:</b><br>QWhatsThis description.</p>");
 	DefaultGUIModel::createGUI(vars, num_vars); // this is required to create the GUI
 	customizeGUI();
 	initParameters();
@@ -46,18 +46,18 @@ PluginTemplate::PluginTemplate(void) : DefaultGUIModel("PluginTemplate with Cust
 	QTimer::singleShot(0, this, SLOT(resizeMe()));
 }
 
-PluginTemplate::~PluginTemplate(void) { }
+CameraTriggerer::~CameraTriggerer(void) { }
 
-void PluginTemplate::execute(void) {
+void CameraTriggerer::execute(void) {
 	return;
 }
 
-void PluginTemplate::initParameters(void) {
+void CameraTriggerer::initParameters(void) {
 	some_parameter = 0;
 	some_state = 0;
 }
 
-void PluginTemplate::update(DefaultGUIModel::update_flags_t flag) {
+void CameraTriggerer::update(DefaultGUIModel::update_flags_t flag) {
 	switch (flag) {
 		case INIT:
 			period = RT::System::getInstance()->getPeriod() * 1e-6; // ms
@@ -84,7 +84,7 @@ void PluginTemplate::update(DefaultGUIModel::update_flags_t flag) {
 	}
 }
 
-void PluginTemplate::customizeGUI(void) {
+void CameraTriggerer::customizeGUI(void) {
 	QGridLayout *customlayout = DefaultGUIModel::getLayout();
 	
 	QGroupBox *button_group = new QGroupBox;
@@ -103,6 +103,6 @@ void PluginTemplate::customizeGUI(void) {
 }
 
 // functions designated as Qt slots are implemented as regular C++ functions
-void PluginTemplate::aBttn_event(void) { }
+void CameraTriggerer::aBttn_event(void) { }
 
-void PluginTemplate::bBttn_event(void) { }
+void CameraTriggerer::bBttn_event(void) { }
