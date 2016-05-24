@@ -21,8 +21,15 @@
  */
 
 #include "camera-triggerer.h"
+//#include "../genicam-camera/genicam-camera.h"
 #include <main_window.h>
 #include <iostream>
+
+namespace Genicam {
+   extern const char *START_GENICAM_RECORDING_EVENT;
+   extern const char *STOP_GENICAM_RECORDING_EVENT;
+	extern const char *GENICAM_SNAPSHOT_EVENT;
+}
 
 extern "C" Plugin::Object *createRTXIPlugin(void){
 	return new CameraTriggerer();
@@ -36,7 +43,7 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-CameraTriggerer::CameraTriggerer(void) : DefaultGUIModel("CameraTriggerer with Custom GUI", ::vars, ::num_vars) {
+CameraTriggerer::CameraTriggerer(void) : DefaultGUIModel("CameraTriggerer", ::vars, ::num_vars) {
 	setWhatsThis("<p><b>CameraTriggerer:</b><br>QWhatsThis description.</p>");
 	DefaultGUIModel::createGUI(vars, num_vars); // this is required to create the GUI
 	customizeGUI();
@@ -89,20 +96,35 @@ void CameraTriggerer::customizeGUI(void) {
 	
 	QGroupBox *button_group = new QGroupBox;
 	
-	QPushButton *abutton = new QPushButton("Button A");
-	QPushButton *bbutton = new QPushButton("Button B");
+	QPushButton *abutton = new QPushButton("Snap");
+	QPushButton *bbutton = new QPushButton("Record");
+	bbutton->setCheckable(true);
 	QHBoxLayout *button_layout = new QHBoxLayout;
 	button_group->setLayout(button_layout);
 	button_layout->addWidget(abutton);
 	button_layout->addWidget(bbutton);
 	QObject::connect(abutton, SIGNAL(clicked()), this, SLOT(aBttn_event()));
-	QObject::connect(bbutton, SIGNAL(clicked()), this, SLOT(bBttn_event()));
+	QObject::connect(bbutton, SIGNAL(toggled(bool)), this, SLOT(bBttn_event(bool)));
 	
 	customlayout->addWidget(button_group, 0,0);
 	setLayout(customlayout);
 }
 
 // functions designated as Qt slots are implemented as regular C++ functions
-void CameraTriggerer::aBttn_event(void) { }
+void CameraTriggerer::aBttn_event(void) { 
+std::cout<<Genicam::GENICAM_SNAPSHOT_EVENT<<std::endl;
+	Event::Object event(Genicam::GENICAM_SNAPSHOT_EVENT);
+	Event::Manager::getInstance()->postEventRT(&event);
+}
 
-void CameraTriggerer::bBttn_event(void) { }
+void CameraTriggerer::bBttn_event(bool on) { 
+	if (on) {
+std::cout<<"record on"<<std::endl;
+		Event::Object event(Genicam::START_GENICAM_RECORDING_EVENT);
+		Event::Manager::getInstance()->postEventRT(&event);
+	} else {
+std::cout<<"record off"<<std::endl;
+		Event::Object event(Genicam::STOP_GENICAM_RECORDING_EVENT);
+		Event::Manager::getInstance()->postEventRT(&event);
+	}
+}
