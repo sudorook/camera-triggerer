@@ -1,12 +1,12 @@
 ### Camera Triggerer
 
-**Requirements:** none
-**Limitations:** none
+**Requirements:** none  
+**Limitations:** none  
 
-![CameraTriggerer GUI](camera-triggerer.png)
+![Camera Triggerer GUI](camera-triggerer.png)
 
 <!--start-->
-<p><b>CameraTriggerer:</b><br>QWhatsThis description.</p>
+<p><b>CameraTriggerer:</b><br>Send signals to the GenICam Module that will make it either take a snapshot or toggle recording on or off.</p>
 <!--end-->
 
 #### Input

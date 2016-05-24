@@ -21,7 +21,6 @@
  */
 
 #include "camera-triggerer.h"
-//#include "../genicam-camera/genicam-camera.h"
 #include <main_window.h>
 #include <iostream>
 
@@ -43,8 +42,8 @@ static DefaultGUIModel::variable_t vars[] = {
 
 static size_t num_vars = sizeof(vars) / sizeof(DefaultGUIModel::variable_t);
 
-CameraTriggerer::CameraTriggerer(void) : DefaultGUIModel("CameraTriggerer", ::vars, ::num_vars) {
-	setWhatsThis("<p><b>CameraTriggerer:</b><br>QWhatsThis description.</p>");
+CameraTriggerer::CameraTriggerer(void) : DefaultGUIModel("Camera Triggerer", ::vars, ::num_vars) {
+	setWhatsThis("<p><b>CameraTriggerer:</b><br>Send signals to the GenICam Module that will make it either take a snapshot or toggle recording on or off.</p>");
 	DefaultGUIModel::createGUI(vars, num_vars); // this is required to create the GUI
 	customizeGUI();
 	initParameters();
