@@ -1,20 +1,20 @@
 /*
-  Copyright (C) 2011 Georgia Institute of Technology, University of Utah, Weill
-  Cornell Medical College
-
-  This program is free software: you can redistribute it and/or modify
-  it under the terms of the GNU General Public License as published by
-  the Free Software Foundation, either version 3 of the License, or
-  (at your option) any later version.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/
+ * Copyright (C) 2011 Georgia Institute of Technology, University of Utah,
+ * Weill Cornell Medical College
+ *
+ * This program is free software: you can redistribute it and/or modify it
+ * under the terms of the GNU General Public License as published by the Free
+ * Software Foundation, either version 3 of the License, or (at your option)
+ * any later version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
+ * more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 /*
  * This is a template implementation file for a user module derived from
@@ -22,14 +22,9 @@
  */
 
 #include "camera-triggerer.h"
+#include <event.h>
 #include <iostream>
 #include <main_window.h>
-
-namespace Genicam {
-extern const char* START_GENICAM_RECORDING_EVENT;
-extern const char* STOP_GENICAM_RECORDING_EVENT;
-extern const char* GENICAM_SNAPSHOT_EVENT;
-}
 
 extern "C" Plugin::Object*
 createRTXIPlugin(void)
@@ -138,8 +133,8 @@ CameraTriggerer::customizeGUI(void)
 void
 CameraTriggerer::aBttn_event(void)
 {
-  std::cout << Genicam::GENICAM_SNAPSHOT_EVENT << std::endl;
-  Event::Object event(Genicam::GENICAM_SNAPSHOT_EVENT);
+  std::cout << Event::GENICAM_SNAPSHOT_EVENT << std::endl;
+  Event::Object event(Event::GENICAM_SNAPSHOT_EVENT);
   Event::Manager::getInstance()->postEventRT(&event);
 }
 
@@ -148,11 +143,11 @@ CameraTriggerer::bBttn_event(bool on)
 {
   if (on) {
     std::cout << "record on" << std::endl;
-    Event::Object event(Genicam::START_GENICAM_RECORDING_EVENT);
+    Event::Object event(Event::START_GENICAM_RECORDING_EVENT);
     Event::Manager::getInstance()->postEventRT(&event);
   } else {
     std::cout << "record off" << std::endl;
-    Event::Object event(Genicam::STOP_GENICAM_RECORDING_EVENT);
+    Event::Object event(Event::STOP_GENICAM_RECORDING_EVENT);
     Event::Manager::getInstance()->postEventRT(&event);
   }
 }
